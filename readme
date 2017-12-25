@@ -1,0 +1,11 @@
+#Run mongo locally
+"C:\Program Files\MongoDB\Server\3.4\bin\mongod.exe" --dbpath mongo-data\db
+
+#Run mongo client
+"C:\Program Files\MongoDB\Server\3.4\bin\mongo.exe"
+
+#Backup Mongo
+"C:\Program Files\MongoDB\Server\3.4\bin\mongodump.exe" --out db-backups --collection interests --db Thor
+
+#Restore Mongo
+"C:\Program Files\MongoDB\Server\3.4\bin\mongorestore.exe" db-backups

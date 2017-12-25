@@ -7,8 +7,16 @@ var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
 var index = require('./routes/index');
 
+var cors = require('cors');
 var app = express();
-mongoose.connect('localhost:27017/Achiless');
+
+var Config = require('./config/config'),
+    conf = new Config();
+
+mongoose.connect(conf.mongo.url);
+
+//for cross origin requests
+app.use(cors());
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));

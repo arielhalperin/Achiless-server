@@ -3,6 +3,8 @@ var router = express.Router();
 var Transaction = require('../models/transaction');
 
 router.get('/', function(req, res, next) {
+    var exchange = require('./services/exchange-service');
+    console.log(exchange.getAvailableCurrencies());
     Transaction.find()
         .exec(function(err, transactions){
             if(err){
@@ -20,6 +22,9 @@ router.get('/', function(req, res, next) {
 });
 
 router.post('/', function(req, res, next) {
+
+    var exchangeService = require('../services/exchange-service');
+    console.log(exchangeService.getAvailableCurrencies());
 
     var transaction = new Transaction({
         fromCurrency: req.body.fromCurrency,

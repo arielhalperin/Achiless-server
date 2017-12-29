@@ -35,6 +35,9 @@ app.use('/', index);
 var transactionRoutes = require('./routes/transactions');
 app.use('/transaction', transactionRoutes);
 
+var currenciesRoutes = require('./routes/currencies');
+app.use('/currency', currenciesRoutes);
+
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   var err = new Error('Not Found');

@@ -12,28 +12,12 @@ module.exports = {
     getAvailableCurrencies: function () {
         var message = {
             "jsonrpc": "2.0",
-            "method": "getCurrencies",
+            "method": "getCurrenciesFull",
             "params": {},
-            "id": 1
-        };
-        //
-        // return this.send(message);
-
-        var options = {
-            "method": "POST",
-            "uri": "https://api.changelly.com",
-            "headers": {
-                "content-type": "application/json"
-            }
+            "id": "test"
         };
 
-        rp(options)
-            .then(function (res) {
-                console.log(res)
-            })
-            .catch(function (err) {
-                console.log(err)
-            });
+        return this.send(message)
 
 
     },
@@ -51,26 +35,31 @@ module.exports = {
         };
 
         var options = {
+            "uri": changellyUrl,
             "method" : "POST",
-            "hostname" : changellyUrl,
-            "header" : headers
+            "headers" : headers,
+            "body": message,
+            "json": true
         };
 
-        var req = http.request(options, function (res) {
-            var chunks = [];
+        return rp(options)
+            .then(function (res) {
+                if(!res || !res['result']){
+                    console.log(res)
+                }
 
-            res.on("data", function (chunk) {
-                chunks.push(chunk);
+                let currencies = [];
+                for( let currency of res['result']){
+                    if(currency.enabled){
+                        currencies.push(currency);
+                    }
+                }
+                return currencies;
+            })
+            .catch(function (err) {
+                console.log(err)
             });
 
-            res.on("end", function () {
-                var body = Buffer.concat(chunks);
-                console.log(body.toString());
-            });
-
-            req.write(JSON.stringify(message));
-            req.end();
-        });
     }
 }
 

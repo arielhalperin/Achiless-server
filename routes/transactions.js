@@ -3,8 +3,7 @@ var router = express.Router();
 var Transaction = require('../models/transaction');
 
 router.get('/', function(req, res, next) {
-    var exchange = require('./services/exchange-service');
-    console.log(exchange.getAvailableCurrencies());
+
     Transaction.find()
         .exec(function(err, transactions){
             if(err){

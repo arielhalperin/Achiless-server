@@ -12,6 +12,7 @@ class ExchangeService {
             let currenciesWithImages = [];
             // var os = require("os");
             // var hostname = os.hostname();
+            //todo how to get hostname
             for( let currency of currencies){
                 const currencyIconPath = __dirname + '/../public/images/coins/' + currency.name + '.png';
                 if (fs.existsSync(currencyIconPath)) {
@@ -24,10 +25,19 @@ class ExchangeService {
 
     }
 
-    getMinAmount(){}
-    getEstimateAmount() {}
+    getMinAmount(fromCurrency, toCurrency) {
+        return this.service.getMinAmount(fromCurrency, toCurrency);
+    }
+
+    getEstimateAmount(fromCurrency, toCurrency, amount) {
+        return this.service.getEstimateAmount(fromCurrency, toCurrency, amount);
+    }
     getTransaction(transactionId){}
-    performtransaction(){}
+
+    performTransaction(fromCurrency, toCurrency, amount, toAddress, extraId = null, refundAddress = null, refundExtraId = null){
+        return this.service.performTransaction(fromCurrency, toCurrency, amount, toAddress,
+            extraId = null, refundAddress = null, refundExtraId = null);
+    }
 }
 
 var exchangeService = new ExchangeService('changelly');

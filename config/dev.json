@@ -1,6 +1,6 @@
 {
   "mongo": {
-    "url" : "localhost:27017/Achiless"
+    "url" : "mongodb://localhost:27017/Achiless"
   },
   "changelly": {
     "url": "https://api.changelly.com",

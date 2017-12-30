@@ -4,7 +4,7 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
-var mongoose = require('mongoose');
+
 var index = require('./routes/index');
 
 var cors = require('cors');
@@ -13,7 +13,9 @@ var app = express();
 var Config = require('./config/config'),
     conf = new Config();
 
-mongoose.connect(conf.mongo.url);
+var mongoose = require('mongoose');
+mongoose.Promise = require('bluebird');
+mongoose.connect(conf.mongo.url, { useMongoClient: true });
 
 //for cross origin requests
 app.use(cors());

@@ -73,8 +73,8 @@ module.exports = {
                 "address": "0x49f79352100bd92eb2ba3daa30852f03abdd8315",
                 "extraId": null,
                 "amount": amount,
-                "refundAddress": "4JUdGzvrMFDWrUUwY3toJATSeNwjn54LkCnKBPRzDuhzi5vSepHfUckJNxRL2gjkNrSqtCoRUrEDAgRwsQvVCjZbRzJ6u2Z6LNn1paZHkm", //optional
-                "refundExtraId": "3a3732229ec701e1105a443ff86b751e50accebdeeee9ab69b36835c1f83ef75" // optional
+                "refundAddress": refundAddress, //optional
+                "refundExtraId": refundExtraId // optional
             },
             "id": 1
         };
@@ -110,12 +110,11 @@ module.exports = {
                     console.log(res)
                 }
 
+                if(res['error']){
+                    return Promise.reject(res['error']['message']);
+                }
                 return res['result'];
             })
-            .catch(function (err) {
-                console.log(err)
-            });
-
     }
 }
 

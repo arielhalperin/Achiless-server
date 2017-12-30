@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var Transaction = require('../models/transaction');
+var Receipt = require('../models/receipt');
 
 router.get('/', function(req, res, next) {
 
@@ -62,38 +63,48 @@ router.get('/get-min-amount', function(req, res, next) {
 router.post('/', function(req, res, next) {
 
     let exchangeService = require('../services/exchange-service');
-    let fromCurrency = req.body.from;
-    let toCurrency = req.body.to;
+    let currencyFrom = req.body.from;
+    let currencyTo = req.body.to;
     let amount = req.body.amount;
-    exchangeService.performTransaction(fromCurrency, toCurrency, amount)
-        .then((data) => {
-            let transaction = new Transaction({
-                fromCurrency: req.body.fromCurrency,
-                toCurrency: req.body.toCurrency,
-                amount: req.body.amount,
-                amount_usd: req.body.amount_usd,
-                amount_btc: req.body.amount_btc,
-            });
-
-            transaction.save(function(err, user) {
-                if (err) {
-                    return res.status(500).json({
-                        title: 'An error Occured',
-                        error: err
-                    });
-                }
-
-                res.status(201).json({
-                    message: "Transaction created",
-                    obj: data
-                });
-            });
-        }).catch((err) => {
-            return res.status(500).json({
-                title: 'An error Occured',
-                error: err
-            });
+    exchangeService.performTransaction(currencyFrom, currencyTo, amount)
+    .then((exchangeTransaction) => {
+        let transaction = new Transaction({
+            currencyFrom: currencyFrom,
+            currencyTo: currencyTo,
+            amount: amount, //todo amount vs exchangeTransaction.amount
+            payoutAddress:exchangeTransaction.payoutAddress,
+            exchangeId: exchangeTransaction.id,
+            exchangePayinAddress:exchangeTransaction.payinAddress,
+            exchangePayinExtraId:exchangeTransaction.payinExtraId,
+            refundAddress:exchangeTransaction.refundAddress,
+            refundExtraId:exchangeTransaction.refundExtraId,
+            status:exchangeTransaction.status,
         });
+
+        return transaction.save();
+    }).then((transaction) => {
+        let receipt = new Receipt({
+            currencyFrom: currencyFrom,
+            currencyTo: currencyTo,
+            amount: amount,
+            amount_usd: amount + 1, //todo calculate
+            amount_btc: amount + 2, //todo calculate
+            transaction: transaction
+        });
+
+        return receipt.save();
+
+    }).then((data)=> {
+        return res.status(201).json({
+            message: "Transaction created",
+            obj: data
+        });
+    }).catch((err) => {
+        return res.status(500).json({
+            title: 'An error Occured',
+            error: err
+        });
+    });
 });
 
 module.exports = router;

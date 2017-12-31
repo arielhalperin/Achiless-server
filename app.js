@@ -40,6 +40,9 @@ app.use('/transaction', transactionRoutes);
 var currenciesRoutes = require('./routes/currencies');
 app.use('/currency', currenciesRoutes);
 
+var marketCapRoutes = require('./routes/market-cap');
+app.use('/market-cap', marketCapRoutes);
+
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   var err = new Error('Not Found');

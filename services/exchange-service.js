@@ -10,9 +10,7 @@ class ExchangeService {
         return this.service.getAvailableCurrencies().then((currencies) => {
             var fs = require('fs');
             let currenciesWithImages = [];
-            // var os = require("os");
-            // var hostname = os.hostname();
-            //todo how to get hostname
+
             for( let currency of currencies){
                 const currencyIconPath = __dirname + '/../public/images/coins/' + currency.name + '.png';
                 if (fs.existsSync(currencyIconPath)) {

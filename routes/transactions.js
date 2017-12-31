@@ -14,7 +14,7 @@ router.get('/', function(req, res, next) {
                 });
             }
 
-            res.status(200).json({
+            return res.status(200).json({
                 message: "Success",
                 obj: transactions
             });
@@ -29,7 +29,7 @@ router.get('/get-estimate-amount', function(req, res, next) {
     let toCurrency = req.query.to;
     let amount = req.query.amount;
     return exchange.getEstimateAmount(fromCurrency, toCurrency, amount).then((data) => {
-        res.status(200).json({
+        return res.status(200).json({
             message: "Success",
             obj: data
         })
@@ -48,7 +48,7 @@ router.get('/get-min-amount', function(req, res, next) {
     let fromCurrency = req.query.from;
     let toCurrency = req.query.to;
     return exchange.getMinAmount(fromCurrency, toCurrency).then((data) => {
-        res.status(200).json({
+        return res.status(200).json({
             message: "Success",
             obj: data
         })

@@ -6,5 +6,8 @@
     "url": "https://api.changelly.com",
     "key": "37bbe570079940809765651a878db252",
     "secret": "b4c25c05bc0c2e3453e27e7b83088afffd22828cc148e1d3cd9cda2e3fc9e84e"
+  },
+  "marketcap":{
+    "url" : "https://api.coinmarketcap.com/v1/ticker/"
   }
 }
